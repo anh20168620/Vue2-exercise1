@@ -6,22 +6,17 @@
     >
       <div class="productCard">
         <div class="product-image">
-          <img
+          <base-image
+            :url_image="product.images[0]"
             class="product-img"
-            :src="'https://media-api-beta.thinkpro.vn/' + product.images[0]"
-            alt=""
-          />
+            :alt="product.name"
+          ></base-image>
         </div>
         <div class="product-description">
           <div class="product-name">{{ product.name }}</div>
           <div class="product-sale-price">
             <span v-if="product.promo_tags.discount">Từ</span>
-            {{
-              product.sale_price?.toLocaleString("it-IT", {
-                style: "currency",
-                currency: "VND",
-              })
-            }}
+            {{ formatSalePriceToVnd }}
           </div>
           <div
             :class="{
@@ -30,36 +25,48 @@
             }"
           >
             <span v-if="!product.promo_tags.discount">Từ</span>
-            {{
-              product.price.toLocaleString("it-IT", {
-                style: "currency",
-                currency: "VND",
-              })
-            }}
+            {{ formatPriceToVnd }}
           </div>
           <span
             v-if="product.promo_tags.discount"
             class="promotional-percentage"
-            >-{{ getPromotionalPercentage() }}%</span
+            >-{{ promotionalPercentage }}%</span
           >
           <br />
-          <span>Màu({{ getColor().length }}):</span>
-          <span> {{ getColor().join(", ") }} </span>
+          <span>Màu({{ getColors.length }}):</span>
+          <span> {{ getColors.join(", ") }} </span>
         </div>
       </div>
     </router-link>
   </div>
 </template>
 <script>
+import baseImage from "./ui/base-image.vue";
 export default {
+  components: {
+    baseImage,
+  },
   props: {
     product: Object,
   },
-  methods: {
-    getColor() {
+  methods: {},
+  computed: {
+    getColors() {
       return this.product.colors.map((color) => color.name);
     },
-    getPromotionalPercentage() {
+    formatSalePriceToVnd() {
+      return this.product.sale_price?.toLocaleString("it-IT", {
+        style: "currency",
+        currency: "VND",
+      });
+    },
+    formatPriceToVnd() {
+      return this.product.price?.toLocaleString("it-IT", {
+        style: "currency",
+        currency: "VND",
+      });
+    },
+    promotionalPercentage() {
       if (this.product.sale_price !== null)
         return Math.ceil(
           ((this.product.price - this.product.sale_price) /
@@ -68,7 +75,6 @@ export default {
         );
     },
   },
-  computed: {},
 };
 </script>
 <style>

@@ -2,7 +2,7 @@
   <div class="header">
     <div class="header-inner">
       <div class="logo">
-        <img src="../../assets/image/tải xuống.png" alt="" />
+        <img src="../../assets/image/logo.png" alt="Logo chữ v" />
       </div>
       <div class="header-list">
         <router-link

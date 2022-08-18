@@ -3,7 +3,7 @@
     <h1>Laptop</h1>
     <div class="product-list">
       <product-card
-        v-for="(laptop, index) in listLaptops"
+        v-for="(laptop, index) in laptops"
         :key="index"
         :product="laptop"
         class="product-item"
@@ -21,67 +21,52 @@
   </div>
 </template>
 <script>
-import axios from "axios";
-import ProductCard from "../components/Layout/ProductCard.vue";
+import productCard from "../components/product-card.vue";
+import * as filter from "../services/filter";
 export default {
   components: {
-    ProductCard,
+    productCard,
   },
   data() {
     return {
-      listLaptops: undefined,
+      laptops: undefined,
       current_page: 1,
     };
   },
   created() {
-    axios
-      .post(`https://thinkpro.vn/front-store/filters/filter`, {
-        cur_page: 1,
-        filters: { category: { queryValue: [1] } },
-        per_page: 33,
-        search: "",
-        sort: 0,
-      })
-      .then((res) => {
-        console.log(res);
-        this.listLaptops = res.data.data;
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+    this.fetchLaptops();
   },
   methods: {
     handleDecrease() {
       this.current_page > 1 ? (this.current_page -= 1) : 1;
     },
+
     handleIncrease() {
       this.current_page > 13 ? 14 : (this.current_page += 1);
     },
+
     scrollToTop() {
       window.scrollTo({
         top: 0,
         behavior: "smooth",
       });
     },
+
+    async fetchLaptops() {
+      const result = await filter.fetchProduct(`filters/filter`, {
+        cur_page: this.current_page,
+        filters: { category: { queryValue: [1] } },
+        per_page: 33,
+        search: "",
+        sort: 0,
+      });
+      this.laptops = result.data;
+    },
   },
   watch: {
     current_page() {
       this.scrollToTop();
-      axios
-        .post(`https://thinkpro.vn/front-store/filters/filter`, {
-          cur_page: this.current_page,
-          filters: { category: { queryValue: [1] } },
-          per_page: 33,
-          search: "",
-          sort: 0,
-        })
-        .then((res) => {
-          console.log(res);
-          this.listLaptops = res.data.data;
-        })
-        .catch((err) => {
-          console.log(err.message);
-        });
+      this.fetchLaptops();
     },
   },
 };

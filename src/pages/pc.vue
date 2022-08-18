@@ -3,7 +3,7 @@
     <h1>Pc</h1>
     <div class="product-list">
       <product-card
-        v-for="(pc, index) in listPcs"
+        v-for="(pc, index) in Pcs"
         :key="index"
         :product="pc"
         class="product-item"
@@ -12,36 +12,33 @@
   </div>
 </template>
 <script>
-import axios from "axios";
-import ProductCard from "../components/Layout/ProductCard.vue";
+import productCard from "../components/product-card.vue";
+import * as filter from "../services/filter";
 export default {
   data() {
     return {
-      listPcs: undefined,
+      Pcs: undefined,
       current_page: 1,
     };
   },
   components: {
-    ProductCard,
+    productCard,
   },
   created() {
-    axios
-      .post(`https://thinkpro.vn/front-store/filters/filter`, {
-        cur_page: 1,
+    this.fetchPcs();
+  },
+  methods: {
+    async fetchPcs() {
+      const result = await filter.fetchProduct("filters/filter", {
+        cur_page: this.current_page,
         filters: { category: { queryValue: [3] } },
         per_page: 33,
         search: "",
         sort: 0,
-      })
-      .then((res) => {
-        console.log(res);
-        this.listPcs = res.data.data;
-      })
-      .catch((err) => {
-        console.log(err.message);
       });
+      this.Pcs = result.data;
+    },
   },
-  methods: {},
 };
 </script>
 <style></style>

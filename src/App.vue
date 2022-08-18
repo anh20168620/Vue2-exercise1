@@ -1,19 +1,17 @@
 <template>
   <div>
-    <Header></Header>
+    <the-header></the-header>
     <router-view></router-view>
   </div>
 </template>
 <script>
-import Header from "./components/Layout/Header.vue";
+import theHeader from "./components/layout/the-header.vue";
 export default {
   components: {
-    Header,
+    theHeader,
   },
   data() {
-    return {
-      text: "",
-    };
+    return {};
   },
 };
 </script>
