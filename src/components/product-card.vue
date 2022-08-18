@@ -47,7 +47,11 @@ export default {
     baseImage,
   },
   props: {
-    product: Object,
+    product: {
+      type: Object,
+      required: true,
+      default: {},
+    },
   },
   methods: {},
   computed: {
