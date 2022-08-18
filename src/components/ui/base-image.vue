@@ -1,5 +1,12 @@
 <template>
-  <img :src="base_url_image + url_image" alt="" />
+  <img
+    :src="
+      url_image
+        ? base_url_image + url_image
+        : 'https://thinkpro.vn/_nuxt/img/fallback-image.4d0336f.png'
+    "
+    alt=""
+  />
 </template>
 <script>
 export default {

@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const instance = axios.create({
+const instanceAxios = axios.create({
     baseURL: 'https://thinkpro.vn/front-store/'
 });
 
-export default instance;
+export default instanceAxios;
