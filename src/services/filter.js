@@ -1,10 +1,6 @@
-import instanceAxios from "../utils/instanceAxios";
+import { fetch } from "../utils";
 
-export const fetchProduct = async (path, params = {}) => {
-    try {
-        const res = await instanceAxios.post(path, params)
-        return res.data
-    } catch (error) {
-        console.log(error);
-    }
+export const fetchProduct = async (params = {}) => {
+    const res = await fetch.post(`filters/filter`, params)
+    return res.data
 }

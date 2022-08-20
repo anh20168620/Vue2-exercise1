@@ -4,24 +4,20 @@
       <div class="logo">
         <img src="../../assets/image/logo.png" alt="Logo chữ v" />
       </div>
-      <div class="header-list">
-        <router-link
-          class="header-item"
-          active-class="active"
-          to="/laptop"
-          exact
+      <nav class="nav-list">
+        <router-link class="nav-item" active-class="active" to="/laptop" exact
           >Laptop</router-link
         >
-        <router-link class="header-item" active-class="active" to="/linh-kien"
+        <router-link class="nav-item" active-class="active" to="/linh-kien"
           >Linh kiện</router-link
         >
-        <router-link class="header-item" active-class="active" to="/pc"
+        <router-link class="nav-item" active-class="active" to="/pc"
           >Pc</router-link
         >
-        <router-link class="header-item" active-class="active" to="/khuyen-mai"
+        <router-link class="nav-item" active-class="active" to="/khuyen-mai"
           >Khuyến mại</router-link
         >
-      </div>
+      </nav>
     </div>
   </div>
 </template>
@@ -57,11 +53,11 @@ export default {
   width: 24px;
 }
 
-.header-list {
+.nav-list {
   margin-left: 30px;
 }
 
-.header-item {
+.nav-item {
   text-decoration: none;
   color: #fff;
   margin-right: 20px;

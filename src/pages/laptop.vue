@@ -3,9 +3,9 @@
     <h1>Laptop</h1>
     <div class="product-list">
       <product-card
-        v-for="(laptop, index) in laptops"
+        v-for="(productItem, index) in productItems"
         :key="index"
-        :product="laptop"
+        :product="productItem"
         class="product-item"
       ></product-card>
     </div>
@@ -22,14 +22,14 @@
 </template>
 <script>
 import productCard from "../components/product-card.vue";
-import * as filter from "../services/filter";
+import { fetchProduct } from "../services";
 export default {
   components: {
     productCard,
   },
   data() {
     return {
-      laptops: undefined,
+      productItems: [],
       current_page: 1,
     };
   },
@@ -53,14 +53,18 @@ export default {
     },
 
     async fetchLaptops() {
-      const result = await filter.fetchProduct(`filters/filter`, {
-        cur_page: this.current_page,
-        filters: { category: { queryValue: [1] } },
-        per_page: 33,
-        search: "",
-        sort: 0,
-      });
-      this.laptops = result.data;
+      try {
+        const result = await fetchProduct({
+          cur_page: this.current_page,
+          filters: { category: { queryValue: [1] } },
+          per_page: 33,
+          search: "",
+          sort: 0,
+        });
+        this.productItems = result.data;
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
   watch: {
@@ -91,6 +95,12 @@ export default {
   margin-top: 15px;
   padding: 8px 15px;
   border-radius: 15px;
+}
+
+.product-item:hover {
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
 
 .pagination {

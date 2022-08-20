@@ -3,9 +3,9 @@
     <h1>Pc</h1>
     <div class="product-list">
       <product-card
-        v-for="(pc, index) in Pcs"
+        v-for="(productItem, index) in productItems"
         :key="index"
-        :product="pc"
+        :product="productItem"
         class="product-item"
       ></product-card>
     </div>
@@ -13,11 +13,11 @@
 </template>
 <script>
 import productCard from "../components/product-card.vue";
-import * as filter from "../services/filter";
+import { fetchProduct } from "../services";
 export default {
   data() {
     return {
-      Pcs: undefined,
+      productItems: [],
       current_page: 1,
     };
   },
@@ -29,14 +29,18 @@ export default {
   },
   methods: {
     async fetchPcs() {
-      const result = await filter.fetchProduct("filters/filter", {
-        cur_page: this.current_page,
-        filters: { category: { queryValue: [3] } },
-        per_page: 33,
-        search: "",
-        sort: 0,
-      });
-      this.Pcs = result.data;
+      try {
+        const result = await fetchProduct({
+          cur_page: this.current_page,
+          filters: { category: { queryValue: [3] } },
+          per_page: 33,
+          search: "",
+          sort: 0,
+        });
+        this.productItems = result.data;
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 };

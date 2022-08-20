@@ -1,44 +1,40 @@
 <template>
-  <div>
-    <router-link
-      style="text-decoration: none; color: inherit"
-      :to="`/detail-product/${product.id}`"
-    >
-      <div class="productCard">
-        <div class="product-image">
-          <base-image
-            :url_image="product.images[0]"
-            class="product-img"
-            :alt="product.name"
-          ></base-image>
-        </div>
-        <div class="product-description">
-          <div class="product-name">{{ product.name }}</div>
-          <div class="product-sale-price">
-            <span v-if="product.promo_tags.discount">Từ</span>
-            {{ formatSalePriceToVnd }}
-          </div>
-          <div
-            :class="{
-              productPrice: !product.promo_tags.discount,
-              textThrough: product.promo_tags.discount,
-            }"
-          >
-            <span v-if="!product.promo_tags.discount">Từ</span>
-            {{ formatPriceToVnd }}
-          </div>
-          <span
-            v-if="product.promo_tags.discount"
-            class="promotional-percentage"
-            >-{{ promotionalPercentage }}%</span
-          >
-          <br />
-          <span>Màu({{ getColors.length }}):</span>
-          <span> {{ getColors.join(", ") }} </span>
-        </div>
+  <router-link
+    style="text-decoration: none; color: inherit"
+    :to="`/detail-product/${product.id}`"
+  >
+    <div class="product-card">
+      <div class="product-image">
+        <base-image
+          :url_image="product.images[0]"
+          class="product-img"
+          :alt="product.name"
+        ></base-image>
       </div>
-    </router-link>
-  </div>
+      <div class="product-description">
+        <div class="product-name">{{ product.name }}</div>
+        <div class="product-sale-price">
+          <span v-if="product.promo_tags.discount">Từ</span>
+          {{ formatSalePriceToVnd }}
+        </div>
+        <div
+          :class="{
+            productPrice: !product.promo_tags.discount,
+            textThrough: product.promo_tags.discount,
+          }"
+        >
+          <span v-if="!product.promo_tags.discount">Từ</span>
+          {{ formatPriceToVnd }}
+        </div>
+        <span v-if="product.promo_tags.discount" class="promotional-percentage"
+          >-{{ promotionalPercentage }}%</span
+        >
+        <br />
+        <span>Màu({{ getColors.length }}):</span>
+        <span> {{ getColors.join(", ") }} </span>
+      </div>
+    </div>
+  </router-link>
 </template>
 <script>
 import baseImage from "./ui/base-image.vue";
